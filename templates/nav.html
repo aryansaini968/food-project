@@ -1,0 +1,66 @@
+<!-- Navigation Bar -->
+<nav>
+    <div class="logo">FoodExpress</div>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        {% if not user.is_authenticated %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'register' %}">Sign up</a></li>
+        {% else %}
+        <li><a href="{% url 'orders.html' %}">Orders</a></li>
+        <li><a href="{% url 'profile.html' %}">Profile</a></li>
+        <li><a href="{% url 'menu_list' %}">Menu</a></li>
+        <li><a href="{% url 'login' %}">Logout</a></li>
+        <li>
+            <form method="get" action="{% url 'search_results' %}">
+            <input type="text" name="q" placeholder="Search food...">
+            <button type="submit">Search</button>
+        </form>
+        </a></li>
+        <li><a href="{% url 'cart' %}">Cart</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<style>
+    nav {
+        background-color: #ff4d4d;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 3rem;
+        font-family: 'Poppins', sans-serif;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+    }
+
+    .nav-links li a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .nav-links li a:hover {
+        color: #ffe6e6;
+    }
+
+    @media (max-width: 768px) {
+        .nav-links {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+</style>

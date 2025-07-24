@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin: 30px 30px 0 30px;
+      padding: 10px 20px;
+      background-color: #f10e12c3;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .back-button:hover {
+      background-color: #e11021;
+      transform: translateY(-2px);
+    }
+
+    .profile-container {
+      max-width: 500px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .profile-picture {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #e80909;
+    }
+
+    h1 {
+      color: #e73a0a;
+    }
+
+    h2 {
+      margin: 15px 0 5px 0;
+      color: #333;
+    }
+
+    p {
+      color: #777;
+      margin: 4px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 15px 10px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: white;
+      background-color: #ec331b;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #ee1a0b;
+    }
+  </style>
+</head>
+<body>
+  {% include "nav.html" %}
+
+  <!-- Back Button -->
+  <a href="{% url 'home' %}" class="back-button">← Back</a>
+
+  <div class="profile-container">
+    <h1>User Profile</h1>
+    {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+    <!-- Optionally add image -->
+    <!-- <img src="https://via.placeholder.com/120" alt="Profile Picture" class="profile-picture"> -->
+    <h2>{{request.user.first_name.upper}} {{request.user.last_name.upper}}</h2>
+    <p>Email: {{ request.user.email}}</p>
+    <p>Username: {{request.user.username}}</p>
+    <a href="{% url 'edit_profile' request.user.id %}" class="btn">Edit Profile</a>
+    <a href="{% url 'login' %}" class="btn">Logout</a>
+  </div>
+{% include "footer.html" %}
+
+</body>
+</html>

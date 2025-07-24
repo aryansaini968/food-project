@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ food_item.name }} - Food Detail</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fdfdfd;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            background-color: #db3434;
+            color: white;
+            padding: 10px 20px;
+            font-size: 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #d31212;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .image-box {
+            flex: 1;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .details {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .details h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .veg-logo {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+        .price {
+            font-size: 24px;
+            color: #e74c3c;
+            margin: 15px 0;
+        }
+
+        .description {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .add-cart {
+            background-color: #d11212;
+            color: white;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .add-cart:hover {
+            background-color: #e31414;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Button -->
+    <a href="javascript:history.back()" class="back-btn">← Back</a>
+
+    <!-- Food Item Detail -->
+    <div class="container">
+        <div class="image-box">
+            <img src="{{ food_item.image.url }}" alt="{{ food_item.name }}" style="height: 400px;">
+        </div>
+        <div class="details">
+            <h1>
+                {{ food_item.name }}
+                {% if food_item.is_vegetarian %}
+                    <img src="{% static 'images/vegetarian_logo.png' %}" class="veg-logo" alt="Veg">
+                {% else %}
+                    <img src="{% static 'images/non_vegetarian_logo.png' %}" class="veg-logo" alt="Non-Veg">
+                {% endif %}
+            </h1>
+            <div class="price">₹ {{ food_item.prize }}</div>
+            <p class="description">{{ food_item.description }}</p>
+        </div>
+    </div>
+
+</body>
+</html>

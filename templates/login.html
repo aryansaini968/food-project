@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+        }
+        .login-box h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        label {
+            font-weight: bold;
+            color: #444;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0072ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005bd1;
+        }
+        .messages {
+            padding: 10px;
+            background-color: #ffdddd;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            color: #721c24;
+            }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>Login</h1>
+        <form method="POST">
+            {% csrf_token %}
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            <label for="User_name">Username</label>
+            <input type="text" id="User_name" name="username" value="{{obj.username}}" required>
+
+            <label for="Password">Password</label>
+            <input type="Password" id="Password" name="password" value="{{obj.Password}}" required>
+
+            <button type="submit">Login</button><br><br>
+            <p style="text-align: center;">Don't have an account. <a href="{% url 'register' %}">Register</a></p>
+        </form>
+    </div>
+</body>
+</html>

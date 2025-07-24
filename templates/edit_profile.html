@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile-edit-container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff6b6b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e85050;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #555;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .profile-edit-container {
+                padding: 25px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-edit-container">
+    <h2>Edit Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" value="{{ user.username }}" required>
+
+        <label for="first_name">Firstname</label>
+        <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}" required>
+
+        <label for="last_name">Lastname</label>
+        <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}" required>
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" value="{{ user.email }}" disabled>
+
+        <button class="btn" type="submit">Update Profile</button>
+    </form>
+    <a href="{% url 'profile.html'%}" class="back-link">← Back to Profile</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}FoodExpress{% endblock %}</title>
+</head>
+<body>
+    {% include 'nav.html' %}
+    
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

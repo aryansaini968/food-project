@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category.name }} - Category Details</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff512f, #dd2476);
+            padding: 50px 20px;
+            color: white;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-top: 20px;
+            border: 4px solid white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ff512f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+     <div class="category-grid">
+            {% for category in categories %}
+                <div class="category-card">
+                    <a href="{% url 'fooditems_by_category' category.id %}">
+                        <a href="{% url 'category_detail' category.id %}">
+                    </a>
+                    <div class="category-name">{{ category.name }}</div>
+                </div>
+            {% empty %}
+                <p>No categories available.</p>
+            {% endfor %}
+
+    <div class="container">
+        {% if category.description %}
+            <div class="description">
+                {{ category.description }}
+            </div>
+        {% else %}
+            <p>No description available for this category.</p>
+        {% endif %}
+
+        <a class="back-link" href="{% url 'menu_list' %}">← Back to All Categories</a>
+    </div>
+
+</body>
+</html>

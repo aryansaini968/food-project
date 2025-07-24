@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="title">🛒 Your Shopping Cart</h2>
+
+<style>
+    .cart-container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+        overflow-x: auto;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+    }
+
+    .cart-table th,
+    .cart-table td {
+        padding: 18px 14px;
+        text-align: center;
+        border-bottom: 1px solid #f2f2f2;
+        vertical-align: middle;
+    }
+
+    .cart-table th {
+        background-color: #f8f9fa;
+        font-size: 15px;
+        font-weight: 600;
+        color: #555;
+        text-transform: uppercase;
+    }
+
+    .cart-table td img {
+        height: 60px;
+        width: 60px;
+        border-radius: 10px;
+        object-fit: cover;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    }
+
+    .quantity-control {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .quantity-btn {
+        width: 32px;
+        height: 32px;
+        background-color: #e9ecef;
+        border: none;
+        border-radius: 50%;
+        font-size: 18px;
+        font-weight: bold;
+        color: #212529;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .quantity-btn:hover {
+        background-color: #ced4da;
+    }
+
+    .quantity-number {
+        font-size: 16px;
+        width: 32px;
+        text-align: center;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .delete-icon {
+        font-size: 20px;
+        color: #dc3545;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .delete-icon:hover {
+        color: #bd2130;
+    }
+
+    .cart-total {
+        text-align: right;
+        font-size: 22px;
+        color: #2c3e50;
+        margin-top: 25px;
+        font-weight: bold;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media screen and (max-width: 768px) {
+        .cart-container {
+            padding: 20px;
+        }
+
+        .cart-table {
+            font-size: 14px;
+            min-width: 100%;
+        }
+
+        .quantity-number {
+            width: 24px;
+        }
+    }
+</style>
+
+<div class="cart-container">
+    {% if cart_items %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Food</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td><img src="{{ item.fooditem.image.url }}" alt="{{ item.fooditem.name }}"></td>
+                <td style="font-weight: 500; color: #333;">{{ item.fooditem.name }}</td>
+                <td>
+                    <div class="quantity-control">
+                        <!-- Minus button -->
+                        <form method="POST" action="{% url 'update_quantity' item.id %}">
+                            {% csrf_token %}
+                            {% if item.quantity > 1 %}
+                                <input type="hidden" name="quantity" value="{{ item.quantity|add:"-1" }}">
+                                <button type="submit" class="quantity-btn">−</button>
+                            {% else %}
+                                <button type="button" class="quantity-btn" disabled style="opacity: 0.5;">−</button>
+                            {% endif %}
+                        </form>
+
+                        <!-- Quantity Display -->
+                        <span class="quantity-number">{{ item.quantity }}</span>
+
+                        <!-- Plus button -->
+                        <form method="POST" action="{% url 'update_quantity' item.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="{{ item.quantity|add:"1" }}">
+                            <button type="submit" class="quantity-btn">+</button>
+                        </form>
+                    </div>
+                </td>
+
+                <td>₹{{ item.fooditem.prize }}</td>
+                <td>₹{{ item.get_total_price }}</td>
+                <td>
+                    <a href="{% url 'remove_from_cart' item.id %}" class="delete-icon" title="Remove Item">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="cart-total">
+        Total: ₹{{ total }}
+    </div>
+    {% else %}
+    <p style="text-align:center; padding: 40px 0; font-size: 18px; color: #555;">Your cart is empty. Add something delicious! 🍕🍔🍟</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Category - {{ category.name }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .delete-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 400px;
+        }
+
+        .delete-box h2 {
+            color: #d9534f;
+            margin-bottom: 20px;
+        }
+
+        .delete-box p {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .delete-box img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            color: white;
+        }
+
+        .btn-cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="delete-box">
+        <img src="{{ obj.image.url }}" alt="{{ obj.name }}">
+        <h2>Delete Category</h2>
+        <p>Are you sure you want to delete the category <strong>"{{ obj.name }}"</strong>?</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'menu_list' %}" class="btn btn-cancel">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

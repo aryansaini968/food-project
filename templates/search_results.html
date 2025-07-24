@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .result {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        .result:last-child {
+            border-bottom: none;
+        }
+        .result h3 {
+            margin: 0;
+            color: #e60d0d;
+        }
+        .result p {
+            margin: 5px 0 0;
+            color: #555;
+        }
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            font-size: 18px;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: #e00b0b;
+            color: white;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        .back-btn:hover {
+            background: #c70922;
+        }
+               .veg-logo {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+            border: none;
+            box-shadow: 0 0 2px rgba(0,0,0,0.2);
+        }
+        .cart-icon {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #ff4d00;
+            color: white;
+            border-radius: 50px;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            background-color: #e04300;
+        }
+
+    </style>
+</head>
+<body>
+    <a href="{% url 'home' %}" class="back-btn">← Back to Home</a>
+    <div class="container">
+        <h2>Search Results</h2>
+        <form method="get" action="{% url 'search_results' %}">
+    <input type="text" name="q" placeholder="Search food..." value="{{ query }}">
+    
+    <select name="category">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+            <option value="{{ cat.id }}">{{ cat.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label><input type="checkbox" name="veg" {% if request.GET.veg %}checked{% endif %}> Vegetarian</label>
+
+    <input type="number" name="min_price" placeholder="Min ₹">
+    <input type="number" name="max_price" placeholder="Max ₹">
+
+    <button type="submit">Filter</button>
+</form>
+        <p>{{ fooditems.count }} items found.</p>
+        
+        {% for item in fooditems %}
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" style="height: 200px;">
+                <h3>{{ item.name }}</h3>
+                {% if item.is_vegetarian %}
+                        <img src="{% static 'images/vegetarian_logo.png' %}" class="veg-logo" alt="Veg">
+                    {% else %}
+                        <img src="{% static 'images/non_vegetarian_logo.png' %}" class="veg-logo" alt="Non-Veg">
+                    {% endif %}
+                <strong>₹{{ item.prize }}</strong>
+                <p>{{ item.description }}</p>
+                <a href="{% url 'add_to_cart' item.id %}" class="cart-icon" title="Add to Cart">🛒</a>
+            {% empty %}
+            <li>No matching food items.</li>
+        {% endfor %}
+        </ul>
+        
+    </div>
+</body>
+</html>

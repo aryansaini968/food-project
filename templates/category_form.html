@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Category Form</title>
+  <style>
+    body {
+      background: #f5f7fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .form-wrapper {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .form-wrapper h2 {
+      margin-bottom: 25px;
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #34495e;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="file"] {
+      width: 100%;
+      padding: 12px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .form-submit:hover {
+      background-color: #2980b9;
+    }
+
+    @media (max-width: 600px) {
+      .form-wrapper {
+        padding: 25px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+    
+<div class="form-wrapper">
+  <h2>Add New Category</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name">Category Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter category name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="image">Category Image</label>
+      <input type="file" name="image" required>
+    </div>
+
+    <button type="submit" class="form-submit">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
